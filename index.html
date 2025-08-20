@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Neural Network Classifier</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Neural Net Visualization: "1" or "一" Recognition</h1>
+        
+        <div class="main-content">
+            <div class="input-section">
+                <div class="grid-container">
+                    <div class="drawing-grid" id="grid">
+                        <div class="grid-cell" data-index="0"></div>
+                        <div class="grid-cell" data-index="1"></div>
+                        <div class="grid-cell" data-index="2"></div>
+                        <div class="grid-cell" data-index="3"></div>
+                    </div>
+                    <div class="controls">
+                        <button class="btn disabled" onclick="handleButtonClick()" id="main-btn">Ready</button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="network-section">
+                <div class="network-container" id="network">
+                    <!-- Input Layer -->
+                    <div class="layer input-layer">
+                        <div class="layer-label">Input Layer</div>
+                        <div class="node input-node" id="input-0">
+                            <div class="node-value">0</div>
+                        </div>
+                        <div class="node input-node" id="input-1">
+                            <div class="node-value">0</div>
+                        </div>
+                        <div class="node input-node" id="input-2">
+                            <div class="node-value">0</div>
+                        </div>
+                        <div class="node input-node" id="input-3">
+                            <div class="node-value">0</div>
+                        </div>
+                    </div>
+                    
+                    <!-- Hidden Layer -->
+                    <div class="layer hidden-layer">
+                        <div class="layer-label">Hidden Layer</div>
+                        <div class="node hidden-node" id="hidden-0">
+                            <div class="node-value" id="hidden-value-0">0.0</div>
+                            <div class="node-label">left-vertical</div>
+                        </div>
+                        <div class="node hidden-node" id="hidden-1">
+                            <div class="node-value" id="hidden-value-1">0.0</div>
+                            <div class="node-label">right-vertical</div>
+                        </div>
+                        <div class="node hidden-node" id="hidden-2">
+                            <div class="node-value" id="hidden-value-2">0.0</div>
+                            <div class="node-label">top-horizontal</div>
+                        </div>
+                        <div class="node hidden-node" id="hidden-3">
+                            <div class="node-value" id="hidden-value-3">0.0</div>
+                            <div class="node-label">bottom-horizontal</div>
+                        </div>
+
+                    </div>
+                    
+                    <!-- Output Layer -->
+                    <div class="layer output-layer">
+                        <div class="layer-label">Output Layer</div>
+                        <div class="node output-node" id="output-0">
+                            <div class="node-value" id="output-value-0">0.0</div>
+                            <div class="node-label">"一"</div>
+                        </div>
+                        <div class="node output-node" id="output-1">
+                            <div class="node-value" id="output-value-1">0.0</div>
+                            <div class="node-label">"1"</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="result-section">
+                <div class="result-box">
+                    <h3>It is</h3>
+                    <div class="prediction" id="prediction">?</div>
+                </div>
+                
+
+            </div>
+        </div>
+        
+        <!-- 添加连接线容器 -->
+        <div class="connection-lines" id="connection-lines">
+            <!-- 网格到输入层的连接线 -->
+            <div class="grid-to-input-connections">
+                <div class="connection-line grid-input-0" id="grid-input-0"></div>
+                <div class="connection-line grid-input-1" id="grid-input-1"></div>
+                <div class="connection-line grid-input-2" id="grid-input-2"></div>
+                <div class="connection-line grid-input-3" id="grid-input-3"></div>
+            </div>
+            
+            <!-- 输出层到预测面板的连接线 -->
+            <div class="output-to-prediction-connections">
+                <div class="connection-line output-prediction" data-output="0" id="output-prediction-0"></div>
+                <div class="connection-line output-prediction" data-output="1" id="output-prediction-1"></div>
+            </div>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>

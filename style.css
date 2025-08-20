@@ -1,0 +1,531 @@
+body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 20px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: #333;
+    min-height: 100vh;
+}
+
+.container {
+    max-width: 1400px;
+    margin: 0 auto;
+    background: rgba(255,255,255,0.95);
+    border-radius: 20px;
+    padding: 30px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+    position: relative;
+}
+
+h1 {
+    text-align: center;
+    color: #4a5568;
+    margin-bottom: 30px;
+    font-size: 2.5em;
+}
+
+.main-content {
+    display: flex;
+    gap: 30px;
+    align-items: flex-start;
+}
+
+.input-section {
+    flex: 1;
+    min-width: 300px;
+    position: relative;
+}
+
+.grid-container {
+    background: #f8f9fa;
+    border-radius: 15px;
+    padding: 20px;
+    text-align: center;
+    margin-bottom: 20px;
+    position: relative;
+    margin-top: 195px; /* 向下移动，使第1排方块与input layer第2个圆圈（240px）水平对齐 */
+}
+
+.drawing-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 80px);
+    grid-template-rows: repeat(2, 80px);
+    gap: 4px;
+    margin: 20px auto;
+    position: relative;
+    margin-right: 40px; /* 为连接线留出空间 */
+    width: 164px; /* 减小宽度，去掉了padding和border */
+    height: 164px; /* 减小高度，去掉了padding和border */
+    justify-content: center;
+    align-content: center;
+}
+
+.grid-cell {
+    background: white;
+    border: 2px solid #e2e8f0;
+    cursor: pointer;
+    border-radius: 8px;
+    transition: all 0.2s;
+    position: relative;
+}
+
+.grid-cell:hover {
+    background: #7d828b; /* 深灰色 */
+    border-color: #7d828b;
+    transform: none; /* 移除放大效果 */
+}
+
+.grid-cell.filled {
+    background: #2d3748;
+    border-color: #2d3748;
+}
+
+.controls {
+    text-align: center;
+    margin-top: 80px; /* 增加上边距，将按钮往下移 */
+}
+
+.btn {
+    background: linear-gradient(45deg, #4299e1, #667eea);
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 25px;
+    font-size: 16px;
+    cursor: pointer;
+    margin: 5px;
+    transition: transform 0.2s;
+}
+
+.btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(66, 153, 225, 0.4);
+}
+
+.btn.disabled {
+    background: #cbd5e0;
+    color: #718096;
+    cursor: not-allowed;
+    opacity: 0.6;
+}
+
+.btn.disabled:hover {
+    transform: none;
+    box-shadow: none;
+}
+
+.network-section {
+    flex: 2;
+    background: #f8f9fa;
+    border-radius: 15px;
+    padding: 20px;
+    position: relative;
+}
+
+.network-container {
+    position: relative;
+    height: 700px;
+    overflow: visible;
+}
+
+.layer {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    height: 100%;
+    align-items: center;
+}
+
+.input-layer {
+    justify-content: flex-start;
+    padding: 0;
+}
+
+/* 输入层节点的具体位置，与隐藏层节点一一对应 */
+#input-0 {
+    position: absolute;
+    top: 80px;
+}
+
+#input-1 {
+    position: absolute;
+    top: 240px;
+}
+
+#input-2 {
+    position: absolute;
+    top: 400px;
+}
+
+#input-3 {
+    position: absolute;
+    top: 540px;
+}
+
+.hidden-layer {
+    justify-content: space-between;
+    padding: 40px 0; /* 与输入层保持相同的padding，确保对齐 */
+}
+
+/* 隐藏层节点的具体位置，与输入层节点一一对应 */
+#hidden-0 {
+    position: absolute;
+    top: 80px;
+}
+
+#hidden-1 {
+    position: absolute; 
+    top: 240px;
+}
+
+#hidden-2 {
+    position: absolute;
+    top: 400px;
+}
+
+#hidden-3 {
+    position: absolute;
+    top: 540px;
+}
+
+.input-layer { left: 50px; }
+.hidden-layer { left: 300px; } /* 向左移动30px，使三层间距更均衡 */
+.output-layer { left: 550px; } /* 保持原位置 */
+
+/* 输出层只有两个圆圈，居中排列 */
+.output-layer {
+    justify-content: flex-start;
+    padding: 0;
+}
+
+/* 输出层节点的具体位置，与hidden layer的第2、3个圆圈对齐 */
+#output-0 {
+    position: absolute;
+    top: 240px; /* 与hidden-1（第2个圆圈）水平对齐 */
+}
+
+#output-1 {
+    position: absolute;
+    top: 400px; /* 与hidden-2（第3个圆圈）水平对齐 */
+}
+
+.node {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 12px;
+    border: 3px solid #9ca3af;
+    background: #f3f4f6;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    position: relative;
+    z-index: 10;
+    transition: all 0.3s ease;
+}
+
+/* 节点激活状态 */
+.node.activated {
+    border-color: #3b82f6;
+    background: linear-gradient(45deg, #dbeafe, #93c5fd);
+    box-shadow: 0 0 15px rgba(59, 130, 246, 0.4);
+}
+
+/* 节点轻微激活状态 */
+.node.light-activated {
+    border-color: #60a5fa;
+    background: linear-gradient(45deg, #eff6ff, #dbeafe);
+    box-shadow: 0 0 8px rgba(96, 165, 250, 0.3);
+}
+
+.node-value {
+    font-size: 14px;
+    font-weight: bold;
+    color: #9ca3af; /* 默认灰色 */
+    transition: color 0.3s ease;
+}
+
+.node.activated .node-value {
+    color: #3b82f6; /* 激活时蓝色 */
+}
+
+.node.light-activated .node-value {
+    color: #60a5fa; /* 轻微激活时浅蓝色 */
+}
+
+.node-label {
+    font-size: 12px;
+    color: #9ca3af; /* 默认灰色 */
+    position: absolute;
+    bottom: -25px;
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+    line-height: 1.2;
+    max-width: 100%;
+    word-break: break-word;
+    white-space: nowrap;
+    transition: color 0.3s ease;
+}
+
+.node.activated .node-label {
+    color: #3b82f6; /* 激活时蓝色 */
+}
+
+.node.light-activated .node-label {
+    color: #60a5fa; /* 轻微激活时浅蓝色 */
+}
+
+.training-btn-container {
+    margin-top: 20px;
+    text-align: center;
+}
+
+.training-btn {
+    background: linear-gradient(45deg, #9f7aea, #805ad5);
+    font-size: 12px;
+    padding: 8px 12px;
+}
+
+
+
+.layer-label {
+    position: absolute;
+    top: -30px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-weight: bold;
+    color: #4a5568;
+    font-size: 18px;
+}
+
+.connection {
+    position: absolute;
+    height: 2px;
+    background: #9ca3af;
+    transform-origin: left center;
+    z-index: 1;
+    opacity: 0.5;
+    transition: all 0.3s;
+}
+
+.connection.activated {
+    background: #3b82f6;
+    opacity: 1;
+    height: 3px;
+}
+
+.connection.light-activated {
+    background: #60a5fa;
+    opacity: 0.8;
+    height: 2px;
+}
+
+.weight-label {
+    position: absolute;
+    background: rgba(156, 163, 175, 0.9);
+    color: white;
+    padding: 2px 6px;
+    border-radius: 10px;
+    font-size: 10px;
+    font-weight: bold;
+    transform: translate(-50%, -50%);
+    z-index: 15;
+    transition: all 0.3s ease;
+}
+
+.weight-label.activated {
+    background: rgba(59, 130, 246, 0.9);
+}
+
+.weight-label.light-activated {
+    background: rgba(96, 165, 250, 0.9);
+}
+
+.result-section {
+    flex: 1;
+    min-width: 250px;
+    position: relative;
+    margin-left: 80px; /* 为连接线留出空间 */
+    margin-top: 280px; /* 向下移动，使其与output layer两个圆圈的中点（320px）对齐 */
+}
+
+.result-box {
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    color: white;
+    padding: 20px;
+    border-radius: 15px;
+    text-align: center;
+    margin-bottom: 20px;
+    position: relative;
+    width: 174px; /* 与左边方块边框相同的宽度 */
+    height: 174px; /* 与左边方块边框相同的高度 */
+    box-sizing: border-box; /* 确保padding包含在尺寸内 */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.prediction {
+    font-size: 28px; /* 减小字体以适应正方形容器 */
+    font-weight: bold;
+    margin: 10px 0; /* 减小边距 */
+}
+
+.confidence {
+    font-size: 18px;
+    opacity: 0.9;
+}
+
+
+
+.step-btn {
+    background: linear-gradient(45deg, #38a169, #48bb78);
+    margin: 5px 2px;
+    font-size: 14px;
+    padding: 8px 16px;
+}
+
+.step-btn:disabled {
+    background: #cbd5e0;
+    color: #718096;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.step-btn:disabled:hover {
+    transform: none;
+    box-shadow: none;
+}
+
+.layer-controls {
+    margin-top: 20px;
+    text-align: center;
+    background: white;
+    padding: 15px;
+    border-radius: 10px;
+    border: 2px solid #e2e8f0;
+}
+
+.processing {
+    animation: pulse 1s infinite;
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+    100% { transform: scale(1); }
+}
+
+
+
+/* 连接线样式 */
+.connection-lines {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 5;
+}
+
+.connection-line {
+    position: absolute;
+    background: #9ca3af;
+    height: 2px;
+    opacity: 0.5;
+    transition: all 0.3s;
+    transform-origin: left center;
+}
+
+.connection-line.activated {
+    background: #3b82f6;
+    opacity: 1;
+    height: 3px;
+}
+
+.grid-input-connection {
+    position: absolute;
+    background: #9ca3af;
+    height: 2px;
+    opacity: 0.5;
+    transition: all 0.3s;
+}
+
+.grid-input-connection.activated {
+    background: #3b82f6;
+    opacity: 1;
+    height: 3px;
+}
+
+
+
+/* 网格到输入层的连接线 */
+.grid-to-input-connections {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+/* 网格到输入层的折线连接 */
+.grid-input-0, .grid-input-1, .grid-input-2, .grid-input-3 {
+    position: absolute;
+}
+
+.grid-input-0::before, .grid-input-1::before, .grid-input-2::before, .grid-input-3::before {
+    content: '';
+    position: absolute;
+    background: #4299e1;
+    width: 2px;
+    height: 100%;
+    left: 0;
+    top: 0;
+}
+
+.grid-input-0::after, .grid-input-1::after, .grid-input-2::after, .grid-input-3::after {
+    content: '';
+    position: absolute;
+    background: #4299e1;
+    height: 2px;
+    width: 100%;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+/* 输出层到预测面板的连接线 */
+.output-to-prediction-connections {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+/* 输出层到预测面板的连接线样式 */
+.output-prediction {
+    position: absolute;
+    background: #9ca3af; /* 默认灰色 */
+    height: 2px;
+    opacity: 0.5;
+    transform-origin: left center;
+    transition: all 0.3s ease;
+}
+
+.output-prediction.activated {
+    background: #3b82f6; /* 激活时蓝色 */
+    opacity: 1;
+    height: 3px;
+}
+
+.hidden-layer .node {
+    margin-bottom: 30px; /* 为标签留出空间 */
+}
