@@ -32,7 +32,7 @@ An interactive web application that demonstrates how a neural network classifies
 - **Visualization**: Dynamic CSS animations and state management
 
 ## Live Demo
-https://github.com/JerryChen-McGill/minimalist-neural-network-visualization.git
+https://jerrychen-mcgill.github.io/minimalist-neural-network-visualization/
 
 ## License
 MIT License - feel free to use and modify!
